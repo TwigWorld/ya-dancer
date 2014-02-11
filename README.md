@@ -1,4 +1,4 @@
-Health Chack Status
+YA DANCER ! (Health Check Status)
 ====
 
 Get a response json reflecting the current status of the site.
