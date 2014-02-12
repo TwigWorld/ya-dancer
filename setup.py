@@ -3,7 +3,6 @@
 
 from setuptools import setup
 
-
 version = "0.1"
 readme = open('README.md').read()
 
@@ -16,13 +15,13 @@ setup(
     author_email='jdpaule@twig-world.com',
     url='https://github.com/TwigWorld/ya-dancer',
     packages=[
-        'ya-dancer',
+        'ya_dancer',
     ],
     include_package_data=True,
     install_requires=[
     ],
     zip_safe=False,
-    keywords='envoy',
+    keywords='ya-dancer',
     classifiers=[
         'Framework :: Django',
         'Intended Audience :: Developers',
