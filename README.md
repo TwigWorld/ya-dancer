@@ -9,7 +9,7 @@ Usage
 Just go to the url `health-check-status/`, you should get a response like:
 
 ```python
-{"app_status": "ok"}
+{"app_status": "ok", 'db_status': { 'status': 'ok', 'error': ''}}
 
 ```
 
