@@ -3,7 +3,7 @@ import json
 from django.views.generic.base import View
 from django.http import HttpResponse
 
-from .models import HealthTable
+from .models import HealthTable, MongoHealthDocument
 
 
 class HealthCheckView(object):
@@ -15,6 +15,28 @@ class HealthCheckView(object):
             obj.save()
             obj.delete()
             return 'ok'
+        except Exception, e:
+            return str(e)
+
+    def _check_mongo(self):
+        try:
+            import mongoengine as mongo
+            all_connection_settings = mongo.connection._connection_settings
+
+            for settings_key in mongo.connection._connection_settings.keys():
+                connection_setting = all_connection_settings[settings_key]
+                mongo.connect(
+                    connection_setting['name'],
+                    alias=settings_key,
+                    host=connection_setting['host'],
+                    port=connection_setting['port'],
+                    username=connection_setting['username'],
+                    password=connection_setting['password']
+                )
+                obj = MongoHealthDocument(health_field="newtest")
+                obj.save()
+                obj.delete()
+                return 'ok'
         except Exception, e:
             return str(e)
 
@@ -31,11 +53,13 @@ class HealthCheckView(object):
             content_type='application/json'
         )        
 
+
 class HealthCheckDatabaseView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
         response_dict = {'db': self._check_db()}
         return self._json_response(response_dict)
+
 
 class HealthCheckAppView(HealthCheckView, View):
 
@@ -43,16 +67,28 @@ class HealthCheckAppView(HealthCheckView, View):
         response_dict = self._default_dict()
         return self._json_response(response_dict)
 
+
 class HealthCheckElasticSearchView(HealthCheckView, View):
     pass
+ 
 
 class HealthCheckRedisView(HealthCheckView, View):
     pass
+
+
+class HealthCheckMongoView(HealthCheckView, View):
+
+    def get(self, request, *args, **kwargs):
+        response_dict = {'mongo_db': self._check_mongo()}
+        return self._json_response(response_dict)
+
 
 class HealthCheckAllView(HealthCheckView, View):
     
     def get(self, request, *args, **kwargs):
         response_dict = self._default_dict()
         response_dict['db'] = self._check_db()
+        if self.request.GET.get('mongodb', ''):
+            response_dict['mongo_db'] = self._check_mongo()
         return self._json_response(response_dict)
 
