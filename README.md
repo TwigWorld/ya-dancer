@@ -58,10 +58,12 @@ response:
 
 ### MongoDB
 
-* To check mongodb on it's own (requires mongoengine):
+requires mongoengine
+
+To check mongodb:
 `health-check-status/mongodb/`
 
-or as part of all:
+or with other status checks:
 `health-check-status/?mongodb=1`
 
 response:
