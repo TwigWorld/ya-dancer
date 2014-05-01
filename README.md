@@ -55,6 +55,21 @@ response:
 {"db": "ok"}
 ```
 
+
+### MongoDB
+
+* To check mongodb on it's own (requires mongoengine):
+`health-check-status/mongodb/`
+
+or as part of all:
+`health-check-status/?mongodb=1`
+
+response:
+
+```python
+{"mongo_db": "ok"}
+```
+
 CHECK IT MATE !
 
 ![Ya Dancer !](http://files.stv.tv/imagebase/139/623x349/139488-ya-dancer-wacky-contestant-steven-hall-on-britains-got-talent-2011.jpg)
