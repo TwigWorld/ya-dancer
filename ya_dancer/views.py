@@ -10,7 +10,6 @@ from .models import HealthTable, MongoHealthDocument
 class HealthCheckView(object):
 
     def _check_db(self):
-        self._delete_session()
         try:
             obj = HealthTable.objects.create(health_field="test")
             obj.health_field = "newtest"
@@ -21,7 +20,6 @@ class HealthCheckView(object):
             return str(e)
 
     def _check_mongo(self):
-        self._delete_session()
         try:
             import mongoengine as mongo
             all_connection_settings = mongo.connection._connection_settings
@@ -44,7 +42,6 @@ class HealthCheckView(object):
             return str(e)
 
     def _default_dict(self):
-        self._delete_session()
         response_dict = {
             'app_status': 'ok'
         }
@@ -65,7 +62,6 @@ class HealthCheckView(object):
 class HealthCheckDatabaseView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
-        self._delete_session()
         response_dict = {'db': self._check_db()}
         return self._json_response(response_dict)
 
@@ -73,7 +69,6 @@ class HealthCheckDatabaseView(HealthCheckView, View):
 class HealthCheckAppView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
-        self._delete_session()
         response_dict = self._default_dict()
         return self._json_response(response_dict)
 
@@ -89,7 +84,6 @@ class HealthCheckRedisView(HealthCheckView, View):
 class HealthCheckMongoView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
-        self._delete_session()
         response_dict = {'mongo_db': self._check_mongo()}
         return self._json_response(response_dict)
 
@@ -97,7 +91,6 @@ class HealthCheckMongoView(HealthCheckView, View):
 class HealthCheckAllView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
-        self._delete_session()
         response_dict = self._default_dict()
         response_dict['db'] = self._check_db()
         if self.request.GET.get('mongodb', ''):
