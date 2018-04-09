@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.sessions.models import Session
 from django.views.generic.base import View
 from django.http import HttpResponse
 
@@ -9,6 +10,7 @@ from .models import HealthTable, MongoHealthDocument
 class HealthCheckView(object):
 
     def _check_db(self):
+        self._delete_session()
         try:
             obj = HealthTable.objects.create(health_field="test")
             obj.health_field = "newtest"
@@ -19,6 +21,7 @@ class HealthCheckView(object):
             return str(e)
 
     def _check_mongo(self):
+        self._delete_session()
         try:
             import mongoengine as mongo
             all_connection_settings = mongo.connection._connection_settings
@@ -41,22 +44,28 @@ class HealthCheckView(object):
             return str(e)
 
     def _default_dict(self):
+        self._delete_session()
         response_dict = {
             'app_status': 'ok'
         }
         return response_dict
 
     def _json_response(self, response_dict):
+        self._delete_session()
         response_json = json.dumps(response_dict)
         return HttpResponse(
             response_json,
             content_type='application/json'
-        )        
+        )
+
+    def _delete_session(self):
+        self.request.session.flush()
 
 
 class HealthCheckDatabaseView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
+        self._delete_session()
         response_dict = {'db': self._check_db()}
         return self._json_response(response_dict)
 
@@ -64,13 +73,14 @@ class HealthCheckDatabaseView(HealthCheckView, View):
 class HealthCheckAppView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
+        self._delete_session()
         response_dict = self._default_dict()
         return self._json_response(response_dict)
 
 
 class HealthCheckElasticSearchView(HealthCheckView, View):
     pass
- 
+
 
 class HealthCheckRedisView(HealthCheckView, View):
     pass
@@ -79,16 +89,17 @@ class HealthCheckRedisView(HealthCheckView, View):
 class HealthCheckMongoView(HealthCheckView, View):
 
     def get(self, request, *args, **kwargs):
+        self._delete_session()
         response_dict = {'mongo_db': self._check_mongo()}
         return self._json_response(response_dict)
 
 
 class HealthCheckAllView(HealthCheckView, View):
-    
+
     def get(self, request, *args, **kwargs):
+        self._delete_session()
         response_dict = self._default_dict()
         response_dict['db'] = self._check_db()
         if self.request.GET.get('mongodb', ''):
             response_dict['mongo_db'] = self._check_mongo()
         return self._json_response(response_dict)
-
