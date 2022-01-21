@@ -1,2 +1,8 @@
 *.pyc
 *.pyo
+
+# pycharm
+.idea/
+
+# pyenv local
+.python-version
