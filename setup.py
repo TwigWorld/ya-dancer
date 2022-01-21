@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 from setuptools import setup
 
-version = "1.1.0"
+version = "2.0.0"
 readme = open('README.md').read()
 
 setup(
@@ -28,5 +28,7 @@ setup(
         'Natural Language :: English',
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',
+        "Programming Language :: Python :: 3",
+        'Programming Language :: Python :: 3.7',
     ],
 )
