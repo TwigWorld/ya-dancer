@@ -21,6 +21,7 @@ django.conf.settings.configure(
         "django.contrib.sites",
         "ya_dancer",
     ],
+    ROOT_URLCONF='ya_dancer.urls',
     SITE_ID=1,
     TEMPLATES=[
         {

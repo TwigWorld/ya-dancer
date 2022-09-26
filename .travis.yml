@@ -1,13 +1,8 @@
 language: python
 python:
   - "3.7"
-env:
-  - DJANGO="1.11.29"
 install:
-  - pip install Django==$DJANGO
   - pip install mock==3.0.5
-  - pip install raven==6.10.0
-  - pip install importlib-metadata==0.21
   - pip install mongoengine
   - pip install .
 script:
