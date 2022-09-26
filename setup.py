@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
+# !/usr/bin/env python
 
 from setuptools import setup
 
-version = "1.1.0"
+version = "2.0.0"
 readme = open('README.md').read()
 
 setup(
@@ -18,7 +18,9 @@ setup(
         'ya_dancer',
     ],
     include_package_data=True,
+    python_requires='>=3.7.0',
     install_requires=[
+        "Django>=1.11.29, <2.0",
     ],
     zip_safe=False,
     keywords='ya-dancer',
@@ -26,7 +28,7 @@ setup(
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
+        "Programming Language :: Python :: 3",
+        'Programming Language :: Python :: 3.7',
     ],
 )

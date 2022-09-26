@@ -15,7 +15,7 @@ class HealthCheckView(object):
             obj.save()
             obj.delete()
             return 'ok'
-        except Exception, e:
+        except Exception as e:
             return str(e)
 
     def _check_mongo(self):
@@ -37,7 +37,7 @@ class HealthCheckView(object):
                 obj.save()
                 obj.delete()
                 return 'ok'
-        except Exception, e:
+        except Exception as e:
             return str(e)
 
     def _default_dict(self):
@@ -51,7 +51,7 @@ class HealthCheckView(object):
         return HttpResponse(
             response_json,
             content_type='application/json'
-        )        
+        )
 
 
 class HealthCheckDatabaseView(HealthCheckView, View):
@@ -70,7 +70,7 @@ class HealthCheckAppView(HealthCheckView, View):
 
 class HealthCheckElasticSearchView(HealthCheckView, View):
     pass
- 
+
 
 class HealthCheckRedisView(HealthCheckView, View):
     pass
@@ -84,11 +84,10 @@ class HealthCheckMongoView(HealthCheckView, View):
 
 
 class HealthCheckAllView(HealthCheckView, View):
-    
+
     def get(self, request, *args, **kwargs):
         response_dict = self._default_dict()
         response_dict['db'] = self._check_db()
         if self.request.GET.get('mongodb', ''):
             response_dict['mongo_db'] = self._check_mongo()
         return self._json_response(response_dict)
-
