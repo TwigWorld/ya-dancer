@@ -18,6 +18,7 @@ setup(
         'ya_dancer',
     ],
     include_package_data=True,
+    python_requires='>=3.7.0',
     install_requires=[
         "Django>=1.11.29, <2.0",
     ],
