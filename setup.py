@@ -20,6 +20,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "Django<3",
+        "mongoengine",
     ],
     zip_safe=False,
     keywords='ya-dancer',
