@@ -31,6 +31,9 @@ setup(
     extras_require={
         "testing": [
             "black",
+            "isort",
+            "check_pdb_hook",
+            "pre-commit",
         ]
     },
 )
