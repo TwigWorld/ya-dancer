@@ -1,8 +1,8 @@
-*.pyc
-*.pyo
+*.py[cod]
+.DS_Store
+
+/build/
+/*.egg-info/
 
 # pycharm
 .idea/
-
-# pyenv local
-.python-version
